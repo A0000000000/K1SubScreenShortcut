@@ -16,7 +16,7 @@ public class DisplayUtils {
 
     public boolean checkDisplayCount() {
         Display[] displays = mDisplayManager.getDisplays();
-        return displays.length == 2;
+        return displays.length >= 2;
     }
 
     public Display[] getAllDisplay() {

@@ -5,7 +5,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.Display;
 
 import xyz.a00000.k1subscreenshortcut.activity.SubScreenActivity;
