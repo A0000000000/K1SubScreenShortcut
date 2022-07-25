@@ -15,7 +15,7 @@ import xyz.a00000.k1subscreenshortcut.utils.DisplayUtils;
 public class SubScreenLaunchService extends Service {
 
     public static final String TAG = SubScreenLaunchService.class.getName();
-    private LocalBinder mBinder = new LocalBinder();
+    private final LocalBinder mBinder = new LocalBinder();
 
     private DisplayUtils mDisplayUtils;
     private Display mSubDisplay;
