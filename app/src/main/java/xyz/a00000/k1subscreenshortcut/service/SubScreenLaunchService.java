@@ -5,7 +5,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.Display;
+
+import androidx.annotation.Nullable;
 
 import xyz.a00000.k1subscreenshortcut.activity.SubScreenActivity;
 import xyz.a00000.k1subscreenshortcut.utils.DisplayUtils;
@@ -30,17 +33,32 @@ public class SubScreenLaunchService extends Service {
         return mBinder;
     }
 
+    @Nullable
     private Display getSubScreenDisplay() {
         Display[] displays = mDisplayUtils.getAllDisplay();
-        return displays[1];
+        if (displays != null) {
+            for (Display display : displays) {
+                Display.Mode mode = display.getMode();
+                int physicalWidth = mode.getPhysicalWidth();
+                int physicalHeight = mode.getPhysicalHeight();
+                if (Math.abs(physicalWidth - 126) < 10 && Math.abs(physicalHeight - 294) < 10) {
+                    return display;
+                }
+            }
+        }
+        return null;
     }
 
-    public void startSubScreenActivity() {
+    public boolean startSubScreenActivity() {
+        if (mSubDisplay == null && (mSubDisplay = getSubScreenDisplay()) == null) {
+            return false;
+        }
         ActivityOptions options = ActivityOptions.makeBasic();
         options.setLaunchDisplayId(mSubDisplay.getDisplayId());
         Intent subActivity = new Intent(this, SubScreenActivity.class);
         subActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(subActivity, options.toBundle());
+        return true;
     }
 
     public class LocalBinder extends Binder {
